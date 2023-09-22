@@ -22,3 +22,11 @@ class User(db.Model):
         hashed_password = bcrypt.generate_password_hash(password)
         hashed_utf8 = hashed_password.decode('utf-8')
         return cls(email=email, first_name=first_name, last_name=last_name, password=hashed_utf8)
+
+    @classmethod
+    def authenticate(cls, email, password):
+        '''Validate that user exists and password is correct. Return the user if both conditions are true.'''
+        user = User.query.filter_by(email=email).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            return user
+        return False
