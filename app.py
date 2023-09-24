@@ -18,6 +18,9 @@ app.config['SQLALCHEMY_ECHO'] = False
 
 db.init_app(app)
 
+# with app.app_context():
+#     db.create_all()
+
 
 # ROUTES
 @app.route('/')
@@ -56,3 +59,10 @@ def authenticate_user():
         else:
             form.password.errors.append('Invalid email/password.')
     return render_template('login.html', form=form)
+
+
+@app.route('/logout', methods=['POST'])
+def logout_user():
+    '''Logout user.'''
+    session.pop('email')
+    return redirect('/')
