@@ -30,3 +30,13 @@ class User(db.Model):
         if user and bcrypt.check_password_hash(user.password, password):
             return user
         return False
+
+    @property
+    def full_name(self):
+        '''Return the full name of the user.'''
+        return f'{self.first_name.title()} {self.last_name.title()}'
+
+    @property
+    def initials(self):
+        '''Return the initials of the user.'''
+        return f'{self.first_name[0]}{self.last_name[0]}'
