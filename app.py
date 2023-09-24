@@ -25,6 +25,8 @@ db.init_app(app)
 # ROUTES
 @app.route('/')
 def home_page():
+    if 'email' in session:
+        return redirect('/dashboard')
     return render_template('index.html')
 
 
@@ -55,10 +57,17 @@ def authenticate_user():
         user = User.authenticate(email=email, password=password)
         if user:
             session['email'] = user.email
-            return redirect('/')
+            return redirect('/dashboard')
         else:
             form.password.errors.append('Invalid email/password.')
     return render_template('login.html', form=form)
+
+
+@app.route('/dashboard')
+def show_dashbord():
+    '''Show dashboard page.'''
+    user = User.query.get(session['email'])
+    return render_template('dashboard.html', user=user)
 
 
 @app.route('/logout', methods=['POST'])
