@@ -20,9 +20,95 @@
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
-        <nav
-            class="fixed w-full z-50 top-0 left-0 md:bg-transparent"
-        >
+        {% if 'email' in session %}
+        <nav class="fixed w-full z-50 top-0 left-0 md:bg-transparent">
+            <div
+                class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+            >
+                <a href="/" class="flex items-center">
+                    <img
+                        src="/static/assets/logo.png"
+                        class="h-8 mr-3"
+                        alt="Sylus Logo"
+                    />
+                </a>
+                <div
+                    class="items-center justify-between md:flex md:w-auto md:order-1"
+                    id="navbar-sticky"
+                >
+                    <ul
+                        class="flex flex-col p-4 md:p-0 mt-4 font-medium border-orange rounded-lg md:flex-row md:space-x-8 md:mt-0"
+                    >
+                        <!-- <img
+                            id="avatarButton"
+                            type="button"
+                            data-dropdown-toggle="userDropdown"
+                            data-dropdown-placement="bottom-start"
+                            class="w-12 h-12 rounded-full cursor-pointer"
+                            src="/docs/images/people/profile-picture-5.jpg"
+                            alt="User dropdown"
+                        /> -->
+
+                        <div
+                            data-dropdown-toggle="userDropdown"
+                            data-dropdown-placement="bottom-start"
+                            class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 cursor-pointer"
+                        >
+                            <span
+                                class="font-medium text-gray-600 dark:text-gray-300"
+                                >{% block initials %}{% endblock initials
+                                %}</span
+                            >
+                        </div>
+
+                        <!-- Dropdown menu -->
+                        <div
+                            id="userDropdown"
+                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 overflow-hidden"
+                        >
+                            <div
+                                class="px-4 py-3 text-sm text-gray-900 dark:text-white"
+                            >
+                                <div class="font-medium truncate">
+                                    {% block name %}{% endblock name %}
+                                </div>
+                            </div>
+                            <ul
+                                class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                aria-labelledby="avatarButton"
+                            >
+                                <li>
+                                    <a
+                                        href="#"
+                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        >Dashboard</a
+                                    >
+                                </li>
+                                <li>
+                                    <a
+                                        href="#"
+                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        >Settings</a
+                                    >
+                                </li>
+                            </ul>
+                            <div class="py-1">
+                                <form action="/logout" method="POST">
+                                    <button
+                                        type="submit"
+                                        class="block w-full text-left px-4 py-2 text-white hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    >
+                                        Log out
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {% else %}
+        <nav class="fixed w-full z-50 top-0 left-0 md:bg-transparent">
             <div
                 class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
             >
@@ -121,8 +207,7 @@
                 </div>
             </div>
         </nav>
-
-        {% block navbar %} {% endblock %} {% block content %} {% endblock %}
+        {% endif %} {% block content %} {% endblock content %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
     </body>
 </html>
