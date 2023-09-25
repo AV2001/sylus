@@ -19,7 +19,6 @@ app.config['SQLALCHEMY_ECHO'] = False
 db.init_app(app)
 
 with app.app_context():
-    db.drop_all()
     db.create_all()
 
 
@@ -36,9 +35,9 @@ def register_user():
     '''Register a user.'''
     form = RegisterUserForm()
     if form.validate_on_submit():
-        first_name = form.first_name.data
-        last_name = form.last_name.data
-        email = form.email.data
+        first_name = form.first_name.data.title()
+        last_name = form.last_name.data.title()
+        email = form.email.data.lower()
         password = form.password.data
         new_user = User.register(
             first_name=first_name, last_name=last_name, email=email, password=password)
