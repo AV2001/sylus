@@ -18,8 +18,9 @@ app.config['SQLALCHEMY_ECHO'] = False
 
 db.init_app(app)
 
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.drop_all()
+    db.create_all()
 
 
 # ROUTES
@@ -43,6 +44,7 @@ def register_user():
             first_name=first_name, last_name=last_name, email=email, password=password)
         db.session.add(new_user)
         db.session.commit()
+        flash('Account created! Login below.', 'green')
         return redirect('/login')
     return render_template('register.html', form=form)
 
