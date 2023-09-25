@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="/static/css/style.css" />
         <title>{% block title %}{% endblock %}</title>
     </head>
-    <body>
+    <body class="relative">
         {% if 'email' in session %}
         <nav class="fixed w-full z-50 top-0 left-0 md:bg-transparent">
             <div
@@ -207,7 +207,25 @@
                 </div>
             </div>
         </nav>
-        {% endif %} {% block content %} {% endblock content %}
+        {% endif %}
+
+        <!-- Content Block -->
+        <div class="content">{% block content %} {% endblock content %}</div>
+
+        <!-- Flashed Messages with Absolute Positioning -->
+        <div
+            class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 sm:mx-auto sm:w-full sm:max-w-sm"
+        >
+            {% for category, message in
+            get_flashed_messages(with_categories=True) %}
+            <div
+                class="p-4 mb-4 text-sm text-{{category}}-800 rounded-lg bg-{{category}}-50 dark:bg-gray-800 dark:text-{{category}}-400"
+                role="alert"
+            >
+                <span>{{message}}</span>
+            </div>
+            {% endfor %}
+        </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
     </body>
 </html>
