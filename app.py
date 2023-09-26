@@ -58,17 +58,17 @@ def authenticate_user():
         user = User.authenticate(email=email, password=password)
         if user:
             session['email'] = user.email
-            return redirect('/dashboard')
+            return redirect('/chat')
         else:
             form.password.errors.append('Invalid email/password.')
     return render_template('login.html', form=form)
 
 
-@app.route('/dashboard')
-def show_dashbord():
-    '''Show dashboard page.'''
+@app.route('/chat')
+def show_chat_page():
+    '''Show chat page.'''
     user = User.query.get(session['email'])
-    return render_template('dashboard.html', user=user)
+    return render_template('chat.html', user=user)
 
 
 @app.route('/logout', methods=['POST'])
