@@ -17,7 +17,8 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
 
     # Relationships
-    integrations = db.relationship('Integration', backref='users')
+    integrations = db.relationship(
+        'Integration', secondary='user_integrations', backref='users')
 
     @classmethod
     def register(cls, email, first_name, last_name, password):
@@ -53,3 +54,14 @@ class Integration(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(20), nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False, unique=True)
+
+
+class UserIntegrations(db.Model):
+    '''Association table to handle many-to-many between User and Integration'''
+
+    __tablename__ = 'user_integrations'
+
+    user_email = db.Column(db.Text, db.ForeignKey(
+        'users.email'), primary_key=True)
+    integration_id = db.Column(db.Integer, db.ForeignKey(
+        'integrations.id'), primary_key=True)
