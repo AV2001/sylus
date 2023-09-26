@@ -1,10 +1,10 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, flash, redirect, render_template, session
+from flask import Flask, flash, redirect, render_template, session, request
 from models import db, User
 from forms import RegisterUserForm, LoginUserForm
 
-# Load the enrivonment variables
+# Load the environment variables
 load_dotenv()
 
 # Create instance of Flask
@@ -22,17 +22,28 @@ with app.app_context():
     db.create_all()
 
 
+@app.before_request
+def require_login():
+    allowed_routes = ['authenticate_user', 'register_user', 'home_page']
+    if request.endpoint not in allowed_routes and 'email' not in session and 'static' not in request.endpoint:
+        return redirect('/')
+
+
+@app.before_request
+def prevent_logged_in_user_access():
+    logged_in_routes = ['authenticate_user', 'register_user']
+    if 'email' in session and request.endpoint in logged_in_routes:
+        return redirect('/chat')
+
+
 # ROUTES
 @app.route('/')
 def home_page():
-    if 'email' in session:
-        return redirect('/dashboard')
     return render_template('index.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
-    '''Register a user.'''
     form = RegisterUserForm()
     if form.validate_on_submit():
         first_name = form.first_name.data.title()
@@ -50,7 +61,6 @@ def register_user():
 
 @app.route('/login', methods=['GET', 'POST'])
 def authenticate_user():
-    '''Authenticate a user.'''
     form = LoginUserForm()
     if form.validate_on_submit():
         email = form.email.data
@@ -66,13 +76,11 @@ def authenticate_user():
 
 @app.route('/chat')
 def show_chat_page():
-    '''Show chat page.'''
     user = User.query.get(session['email'])
     return render_template('chat.html', user=user)
 
 
 @app.route('/logout', methods=['POST'])
 def logout_user():
-    '''Logout user.'''
     session.pop('email')
     return redirect('/')
