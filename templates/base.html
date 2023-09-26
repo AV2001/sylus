@@ -52,7 +52,7 @@
                         <div
                             data-dropdown-toggle="userDropdown"
                             data-dropdown-placement="bottom-start"
-                            class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 cursor-pointer"
+                            class="relative inline-flex items-center justify-center w-12 h-12 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 cursor-pointer"
                         >
                             <span
                                 class="font-medium text-gray-600 dark:text-gray-300"
@@ -77,6 +77,13 @@
                                 class="py-2 text-sm text-gray-700 dark:text-gray-200"
                                 aria-labelledby="avatarButton"
                             >
+                                <li>
+                                    <a
+                                        href="/dashboard"
+                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        >Dashboard</a
+                                    >
+                                </li>
                                 <li>
                                     <a
                                         href="/chat"
@@ -210,7 +217,7 @@
         {% endif %}
 
         <!-- Content Block -->
-        <div class="content">{% block content %} {% endblock content %}</div>
+        {% block content %} {% endblock content %}
 
         <!-- Flashed Messages with Absolute Positioning -->
         <div
