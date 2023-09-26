@@ -16,6 +16,9 @@ class User(db.Model):
     last_name = db.Column(db.String(30), nullable=False)
     password = db.Column(db.Text, nullable=False)
 
+    # Relationships
+    integrations = db.relationship('Integration', backref='users')
+
     @classmethod
     def register(cls, email, first_name, last_name, password):
         '''Register user with hashed password and return the user'''
@@ -40,3 +43,13 @@ class User(db.Model):
     def initials(self):
         '''Return the initials of the user.'''
         return f'{self.first_name[0]}{self.last_name[0]}'
+
+
+class Integration(db.Model):
+    '''Integration Model'''
+
+    __tablename__ = 'integrations'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(20), nullable=False, unique=True)
+    description = db.Column(db.Text, nullable=False, unique=True)
