@@ -25,7 +25,7 @@ with app.app_context():
 @app.before_request
 def require_login():
     allowed_routes = ['authenticate_user',
-                      'register_user', 'home_page', 'dashboard']
+                      'register_user', 'home_page', 'dashboard', 'settings']
     if request.endpoint not in allowed_routes and 'email' not in session and 'static' not in request.endpoint:
         return redirect('/')
 
@@ -99,6 +99,13 @@ def show_chat_page():
     '''Show the chat page.'''
     user = User.query.get(session['email'])
     return render_template('chat.html', user=user)
+
+
+@app.route('/settings')
+def show_settings_page():
+    '''Show the settings page.'''
+    user = User.query.get(session['email'])
+    return render_template('settings.html', user=user)
 
 
 @app.route('/logout', methods=['POST'])
