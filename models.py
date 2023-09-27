@@ -2,13 +2,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
-
 bcrypt = Bcrypt()
 
 
 class User(db.Model):
     '''User Model'''
-
     __tablename__ = 'users'
 
     email = db.Column(db.Text, primary_key=True)
@@ -18,7 +16,12 @@ class User(db.Model):
 
     # Relationships
     apps = db.relationship(
-        'App', secondary='user_apps', backref='users')
+        'App',
+        secondary='user_apps',
+        backref='users',
+        cascade='all',
+        passive_deletes=True
+    )
 
     @classmethod
     def register(cls, email, first_name, last_name, password):
@@ -48,7 +51,6 @@ class User(db.Model):
 
 class App(db.Model):
     '''App Model'''
-
     __tablename__ = 'apps'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -59,10 +61,9 @@ class App(db.Model):
 
 class UserApps(db.Model):
     '''Association table to handle many-to-many between User and App'''
-
     __tablename__ = 'user_apps'
 
     user_email = db.Column(db.Text, db.ForeignKey(
-        'users.email'), primary_key=True)
+        'users.email', ondelete='CASCADE'), primary_key=True)
     app_id = db.Column(db.Integer, db.ForeignKey(
-        'apps.id'), primary_key=True)
+        'apps.id', ondelete='CASCADE'), primary_key=True)
