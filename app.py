@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, session, request
-from models import db, User, Integration
+from models import db, User, Integration, UserIntegrations
 from forms import RegisterUserForm, LoginUserForm
 
 # Load the environment variables
@@ -18,11 +18,14 @@ app.config['SQLALCHEMY_ECHO'] = False
 
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
+
 
 @app.before_request
 def require_login():
     allowed_routes = ['authenticate_user',
-                      'register_user', 'home_page', 'dashbord']
+                      'register_user', 'home_page', 'dashboard']
     if request.endpoint not in allowed_routes and 'email' not in session and 'static' not in request.endpoint:
         return redirect('/')
 
@@ -79,6 +82,16 @@ def show_dashboard_page():
     user = User.query.get(session['email'])
     integrations = Integration.query.all()
     return render_template('dashboard.html', user=user, integrations=integrations)
+
+
+@app.route('/dashboard/add-app/<int:app_id>', methods=['POST'])
+def add_app(app_id):
+    '''Add an app for the user.'''
+    user_app = UserIntegrations(
+        user_email=session['email'], integration_id=app_id)
+    db.session.add(user_app)
+    db.session.commit()
+    return redirect('/dashboard')
 
 
 @app.route('/chat')
