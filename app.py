@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, session, request
-from models import db, User, Integration, UserIntegrations
+from models import db, User, App, UserApps
 from forms import RegisterUserForm, LoginUserForm
 
 # Load the environment variables
@@ -80,15 +80,15 @@ def authenticate_user():
 def show_dashboard_page():
     '''Show the dashboard page.'''
     user = User.query.get(session['email'])
-    integrations = Integration.query.all()
-    return render_template('dashboard.html', user=user, integrations=integrations)
+    apps = App.query.all()
+    return render_template('dashboard.html', user=user, apps=apps)
 
 
 @app.route('/dashboard/add-app/<int:app_id>', methods=['POST'])
 def add_app(app_id):
     '''Add an app for the user.'''
-    user_app = UserIntegrations(
-        user_email=session['email'], integration_id=app_id)
+    user_app = UserApps(
+        user_email=session['email'], app_id=app_id)
     db.session.add(user_app)
     db.session.commit()
     return redirect('/dashboard')

@@ -17,8 +17,8 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
 
     # Relationships
-    integrations = db.relationship(
-        'Integration', secondary='user_integrations', backref='users')
+    apps = db.relationship(
+        'App', secondary='user_apps', backref='users')
 
     @classmethod
     def register(cls, email, first_name, last_name, password):
@@ -46,10 +46,10 @@ class User(db.Model):
         return f'{self.first_name[0]}{self.last_name[0]}'
 
 
-class Integration(db.Model):
-    '''Integration Model'''
+class App(db.Model):
+    '''App Model'''
 
-    __tablename__ = 'integrations'
+    __tablename__ = 'apps'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(20), nullable=False, unique=True)
@@ -57,12 +57,12 @@ class Integration(db.Model):
     icon = db.Column(db.Text, nullable=False, unique=True)
 
 
-class UserIntegrations(db.Model):
-    '''Association table to handle many-to-many between User and Integration'''
+class UserApps(db.Model):
+    '''Association table to handle many-to-many between User and App'''
 
-    __tablename__ = 'user_integrations'
+    __tablename__ = 'user_apps'
 
     user_email = db.Column(db.Text, db.ForeignKey(
         'users.email'), primary_key=True)
-    integration_id = db.Column(db.Integer, db.ForeignKey(
-        'integrations.id'), primary_key=True)
+    app_id = db.Column(db.Integer, db.ForeignKey(
+        'apps.id'), primary_key=True)
