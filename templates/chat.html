@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% block title %}Sylus AI{% endblock title %} {% block
+initials %}{{user.initials}}{% endblock initials %} {% block name
+%}{{user.full_name}}{% endblock name %} {% block content %}
+<div class="flex max-h-full flex-col justify-center mt-36 px-6 py-12 lg:px-8">
+    <h1
+        class="text-white text-3xl lg:text-4xl xl:text-5xl font-bold text-center mb-4"
+    >
+        Chat
+    </h1>
+
+    <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-md md:max-w-lg lg:max-w-xl">
+        <form class="space-y-6" method="POST">
+            <div>
+                <label
+                    for="prompt"
+                    class="block text-base font-medium leading-6 text-gray-100"
+                >
+                    Prompt
+                </label>
+                <div class="mt-2">
+                    <textarea
+                        name="prompt"
+                        id="prompt"
+                        cols="25"
+                        rows="5"
+                        class="block w-full rounded-md border-0 py-1.5 px-2.5 text-zinc-900 shadow-sm ring-1 ring-inset font-medium outline-none ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:leading-6"
+                        required
+                    ></textarea>
+                </div>
+            </div>
+
+            <div>
+                <button
+                    type="submit"
+                    class="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 sm:text-base sm:py-2 sm:px-4"
+                >
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
