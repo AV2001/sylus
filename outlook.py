@@ -74,6 +74,7 @@ class Outlook:
         return cleaned_messages
 
     def send_email(self, access_token, to_address, subject, body):
+        '''Sends an email via Outlook given the access_token, to_address, subject and body.'''
         headers = {
             'Authorization': f'Bearer {access_token}',
             'Content-Type': 'application/json'
