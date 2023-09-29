@@ -10,7 +10,8 @@ load_dotenv()
 
 class Outlook:
     AUTHORITY = 'https://login.microsoftonline.com/common'
-    SCOPES = ['User.Read', 'Mail.Read', 'Mail.Send', 'Mail.ReadWrite']
+    SCOPES = ['User.Read', 'Mail.Read', 'Mail.Send',
+              'Mail.ReadWrite', 'People.Read']
     BASE_URL = 'https://graph.microsoft.com/v1.0/me/'
 
     def __init__(self, client_id, client_secret, redirect_uri):
@@ -72,7 +73,7 @@ class Outlook:
             cleaned_messages.append(message)
         return cleaned_messages
 
-    def send_email(self, access_token, to_address, subject, content):
+    def send_email(self, access_token, to_address, subject, body):
         headers = {
             'Authorization': f'Bearer {access_token}',
             'Content-Type': 'application/json'
@@ -82,7 +83,7 @@ class Outlook:
                 'subject': subject,
                 'body': {
                     'contentType': 'HTML',
-                    'content': content
+                    'content': body
                 },
                 'toRecipients': [
                     {
@@ -96,6 +97,17 @@ class Outlook:
         response = requests.post(
             f'{self.BASE_URL}sendMail', headers=headers, json=body)
         response.raise_for_status()
+
+    def get_email_from_name(self, access_token, name):
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json'
+        }
+        response = requests.get(
+            f'{self.BASE_URL}people?$search={name}', headers=headers)
+        data = response.json()
+        to_address = data['value'][0]['scoredEmailAddresses'][0]['address']
+        return to_address
 
 
 # Instantiate Outlook with your credentials
