@@ -88,10 +88,6 @@ block initials %}{{user.initials}}{% endblock initials %} {% block name
                                 <span class="flex-1 ml-3 whitespace-nowrap"
                                     >{{app.name}}</span
                                 >
-                                <!-- <span
-                                    class="inline-flex items-center justify-center px-2 py-0.5 ml-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400"
-                                    >Popular</span
-                                > -->
                             </button>
                         </form>
                         {% endif %} {% endfor %}
@@ -102,6 +98,7 @@ block initials %}{{user.initials}}{% endblock initials %} {% block name
     </div>
 
     <div class="flex justify-center mt-8">
+        <!-- Existing button -->
         <button
             type="button"
             data-modal-target="apps-modal"
@@ -125,6 +122,31 @@ block initials %}{{user.initials}}{% endblock initials %} {% block name
             </svg>
             Connect Apps
         </button>
+
+        <!-- New form and button to send POST request to /outlook-login -->
+        <form action="/outlook-login" class="ml-4">
+            <button
+                type="submit"
+                class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+            >
+                <svg
+                    aria-hidden="true"
+                    class="w-4 h-4 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    />
+                </svg>
+                Connect to Outlook
+            </button>
+        </form>
     </div>
 </div>
 {% endblock content %}
