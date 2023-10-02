@@ -1,2 +1,21 @@
-{% extends 'base.html' %} {% block title %}Home{% endblock %} {% block content
-%} {% endblock %}
+{% extends 'base.html' %} {% block title %}Home{% endblock %} {% block content%}
+<section
+    class="text-white pt-40 pb-20 md:py-32 lg:py-40 max-w-screen-xl mx-auto"
+>
+    <div class="container mx-auto px-4 text-center flex flex-col items-center">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            Meet Sylus AI, Your Digital Assistant
+        </h1>
+        <p class="text-lg md:text-xl lg:text-2xl mb-8 max-w-2xl">
+            Empowering you to interact with digital platforms using natural
+            language, making your online tasks simpler and more intuitive.
+        </p>
+        <a
+            href="/register"
+            class="bg-white text-brand-dark px-6 py-3 rounded-full font-medium hover:bg-gray-200 transition duration-300"
+        >
+            Get Started for Free
+        </a>
+    </div>
+</section>
+{% endblock content %}
