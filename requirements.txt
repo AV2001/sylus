@@ -42,6 +42,7 @@ O365 @ git+https://github.com/AV2001/python-o365.git@341b7aaa77747f2fce242f8f393
 oauthlib==3.2.2
 openai==0.28.1
 packaging==23.2
+psycopg2==2.9.9
 psycopg2-binary==2.9.9
 pycparser==2.21
 pydantic==2.4.2
