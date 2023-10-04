@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, session, request
 from flask_migrate import Migrate
-from models import db, User, App, UserApps
+from models import db, bcrypt, User, App, UserApps
 from forms import RegisterUserForm, LoginUserForm
 from O365.connection import Connection
 from completion import get_completion
@@ -23,6 +23,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 
 db.init_app(app)
+bcrypt.init_app(app)
 
 migrate = Migrate(app, db)
 
