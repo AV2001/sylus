@@ -1,4 +1,4 @@
-import os, re
+import os
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, session, request
 from flask_migrate import Migrate
@@ -18,16 +18,13 @@ app = Flask(__name__)
 
 # CONFIGURATIONS
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = re.sub(r"^postgres:", "postgresql:", os.getenv('DATABASE_URL'))
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 
 db.init_app(app)
 
 migrate = Migrate(app, db)
-
-with app.app_context():
-    db.create_all()
 
 
 @app.before_request
