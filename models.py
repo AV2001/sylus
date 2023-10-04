@@ -1,16 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from sqlalchemy.engine.url import make_url
 
-class CustomSQLAlchemy(SQLAlchemy):
-    def apply_driver_hacks(self, app, info, options):
-        if info.drivername == "postgres":
-            info.drivername = "postgresql"
-            info.url = make_url(info.url.__str__().replace("postgres://", "postgresql://"))
-        return super().apply_driver_hacks(app, info, options)
-
-# Use CustomSQLAlchemy instead of SQLAlchemy
-db = CustomSQLAlchemy()
+db = SQLAlchemy()
 bcrypt = Bcrypt()
 
 

@@ -23,7 +23,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 
 db.init_app(app)
-bcrypt.init_app(app)
 
 migrate = Migrate(app, db)
 
@@ -32,7 +31,10 @@ migrate = Migrate(app, db)
 def require_login():
     allowed_routes = ['authenticate_user',
                       'register_user', 'home_page', 'dashboard', 'settings', 'delete_user']
-    if request.endpoint not in allowed_routes and 'email' not in session and 'static' not in request.endpoint:
+    if (request.endpoint and
+        request.endpoint not in allowed_routes and
+        'email' not in session and
+            'static' not in request.endpoint):
         return redirect('/')
 
 
