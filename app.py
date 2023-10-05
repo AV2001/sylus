@@ -120,6 +120,8 @@ def process_chat_input():
 
     token = session.get('token', None)
 
+    print('TOKEN =>', token)
+
     if token is None:
         flash('Authentication token expired, don\'t worry. Please connect to Outlook again.', 'red')
         return redirect('/dashboard')
