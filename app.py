@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, session, request
 from flask_migrate import Migrate
-from models import db, bcrypt, User, App, UserApps
+from models import db, User, App, UserApps
 from forms import RegisterUserForm, LoginUserForm
 from O365.connection import Connection
 from completion import get_completion
