@@ -117,8 +117,15 @@ def show_chat_page():
 @app.route('/chat', methods=['POST'])
 def process_chat_input():
     prompt = request.form['prompt']
+
+    token = session.get('token', None)
+
+    if token is None:
+        flash('Authentication token expired, don\'t worry. Please connect to Outlook again.', 'red')
+        return redirect('/dashboard')
+
     completion = get_completion(prompt)
-    print(completion)
+    flash(completion, 'blue')
     return redirect('/chat')
 
 
@@ -154,9 +161,10 @@ REDIRECT_URI = os.getenv('REDIRECT_URI')
 required_scopes = ['https://graph.microsoft.com/Mail.Read',
                    'https://graph.microsoft.com/Mail.ReadWrite', 'https://graph.microsoft.com/Mail.Send']
 
+con = Connection((CLIENT_ID, CLIENT_SECRET), scopes=required_scopes)
+
 
 def get_authorization_url():
-    con = Connection((CLIENT_ID, CLIENT_SECRET), scopes=required_scopes)
     consent_url, state = con.get_authorization_url(redirect_uri=REDIRECT_URI)
 
     # Save the state in the session to validate later
@@ -189,8 +197,8 @@ def oauth_response():
     if result:
         # Store the token in session or elsewhere securely
         session["token"] = account.con.token_backend.token
-        flash('Outlook Authentication Successful', 'green')
+        flash('Outlook Authentication Successful!', 'green')
         return redirect('/chat')
     else:
-        flash('Outlook Authentication Failed', 'red')
+        flash('Outlook Authentication Failed!', 'red')
         return redirect('/dashboard')
