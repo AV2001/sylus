@@ -27,6 +27,11 @@ db.init_app(app)
 migrate = Migrate(app, db)
 
 
+# Create all tables
+with app.app_context():
+    db.create_all()
+
+
 @app.before_request
 def require_login():
     allowed_routes = ['authenticate_user',
