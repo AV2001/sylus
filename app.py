@@ -120,10 +120,8 @@ def process_chat_input():
 
     token = session.get('token', None)
 
-    print('TOKEN =>', token)
-
     if token is None:
-        flash('Authentication token expired, don\'t worry. Please connect to Outlook again.', 'red')
+        flash('Outlook Authentication Required!', 'red')
         return redirect('/dashboard')
 
     completion = get_completion(prompt)
@@ -179,7 +177,6 @@ def get_authorization_url():
 def login():
     credentials = (CLIENT_ID, CLIENT_SECRET)
     account = Account(credentials)
-    # redirect_uri = url_for('oauth_response', _external=True)
     auth_url = account.authenticate(
         scopes=required_scopes, redirect_uri=REDIRECT_URI)
     if auth_url:
