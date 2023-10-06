@@ -46,7 +46,7 @@ msal==1.24.1
 multidict==6.0.4
 mypy-extensions==1.0.0
 numpy==1.26.0
-O365==2.0.31
+git+https://github.com/AV2001/python-o365.git
 oauthlib==3.2.2
 openai==0.28.1
 packaging==23.2
